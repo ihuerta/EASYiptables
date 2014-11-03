@@ -1,0 +1,129 @@
+#! /usr/bin/perl
+
+# Easy iPtables set up!
+# Created by ihuerta
+use strict;
+use warnings;
+use Switch;
+
+my ($input);
+
+while ($input ne '5')
+
+# Main Menu , start of structure
+{
+    clear_screen();
+
+    print "Welcome to EASYiptables v0.1\n".
+	      "\n".
+	      "1. View current iptables\n".
+          "2. Load certain iptables settings\n".
+	      "3. Flush iptables\n". 
+          "4. Information\n". 
+          "5. Exit\n". 
+	      "\n";
+
+    print "Enter your choice: ";
+    $input = <STDIN>;
+    chomp($input);
+
+    # Will switch to option read by input
+    switch ($input)
+    {
+        # This is option 1, otherwise known as case "1"
+        case '1'
+        {
+            $input = '';
+
+            while ($input ne 'y')
+            {
+                clear_screen();
+
+                print "Now viewing current settings of iptables\n".
+		        "\n";
+		        system("iptables -L -v -n --line-numbers");
+                print "\n";
+
+                print "Return to main menu? (y/n) ";
+                $input = <STDIN>;
+                chomp($input);
+            }
+
+            $input = '';
+        }
+
+        # This is option 2, otherwise known as case "2"
+        case '2'
+        {
+            $input = '';
+
+            while ($input ne 'y')
+            {
+                clear_screen();
+
+              print "iptables settings have now been set!\n";
+		      system("iptables -A INPUT -p tcp --match multiport --dport 21,22,23,25,53,80,111,139,445,512,513,514,1099,1524,2049,2121,3306,3632,5432,5900,6000,6667,6697,8009,8180,8787,39292,43729,44813,55852 -j DROP");
+		      system("iptables-save");
+		      print "\n";
+
+                print "Return to main menu? (y/n) ";
+                $input = <STDIN>;
+                chomp($input);
+            }
+
+            $input = '';
+        }
+
+        # This is option 3, otherwise known as case "3"
+        case '3'
+        {
+            $input = '';
+
+            while ($input ne 'y')
+            {
+                clear_screen();
+
+              print "iptables have now been flushed!\n";
+		      system("iptables -F");
+		      print "\n";
+
+              print "Return to main menu? (y/n) ";
+              $input = <STDIN>;
+              chomp($input);
+            }
+
+            $input = '';
+        }
+
+        # This is option 4, otherwise known as case "4"
+        case '4'
+        {
+            $input = '';
+
+            while ($input ne 'y')
+            {
+                clear_screen();
+
+                print "EASYiptables is a script written in Perl to simply the ease of iptables & options\n".
+                      "Intended to be used in Kali Linux or Metasploitable 2.0\n".
+                      "\n".
+		              "v0.1 currently DROPS certain ports found open in Metasploitable 2.0\n".
+		              "** LATER VERSIONS WILL OFFER WHICH PORTS YOU WANT TO DROP, ACCEPT, OR FORWARD | TO CONTRIBUTE TO THIS GO TO www.github.com/EASYiptables\n".
+                      "\n";
+
+                print "Do you want to return to main menu? (y/n) ";
+                $input = <STDIN>;
+                chomp($input);
+            }
+
+            $input = '';
+        }
+    }
+}
+
+exit(0);
+
+sub clear_screen
+{
+    system("clear");
+}
